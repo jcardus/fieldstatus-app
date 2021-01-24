@@ -1,0 +1,8 @@
+{
+  "name": "fieldForce",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "e0e8cd17"
+}
