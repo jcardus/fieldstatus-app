@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "fieldForce",
+  "appId": "com.fleetmap.fieldstatus",
+  "appName": "fieldStatus",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
