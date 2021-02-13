@@ -48,7 +48,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-import store from './store'
+import {store} from './store'
 
 const app = createApp(App)
   .use(IonicVue)

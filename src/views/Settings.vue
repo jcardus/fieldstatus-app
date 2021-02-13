@@ -11,17 +11,29 @@
           <ion-title size="large">Settings</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-avatar></ion-avatar>
+      {{user && user.displayName}}
+      <ion-button @click="logout">
+        Logout
+      </ion-button>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import {IonHeader, IonPage, IonTitle, IonToolbar} from "@ionic/vue";
+import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton} from "@ionic/vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Settings",
-  components: {IonPage, IonHeader, IonToolbar, IonTitle}
+  components: {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton},
+  computed: {
+    ...mapGetters(['user'])
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+    }
+  }
 }
 </script>
 

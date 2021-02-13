@@ -1,13 +1,22 @@
-import Vuex from 'vuex'
+import firebase from "firebase/app"
+import {createStore} from 'vuex'
 
-export default new Vuex.Store({
+export const store = createStore({
     state: {
-        count: 0
+        user: {}
     },
     mutations: {
-        increment (state) {
-            state.count++
+        SET_USER (state, user) {
+            state.user = user
         }
+    },
+    actions: {
+        async logout() {
+            console.log(await firebase.auth().signOut())
+        }
+    },
+    getters: {
+      user(state) {return state.user}
     }
 })
 

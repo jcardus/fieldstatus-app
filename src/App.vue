@@ -18,7 +18,7 @@ export default defineComponent({
   created() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-
+        this.$store.commit('SET_USER', user)
         console.log('logged user', user)
       } else {
         this.$router.push('/login')

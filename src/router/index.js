@@ -27,8 +27,8 @@ const routes = [
         component: () => import('@/views/Tab2.vue')
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3.vue')
+        path: 'settings',
+        component: () => import('@/views/Settings.vue')
       }
     ]
   }
