@@ -1,5 +1,5 @@
 {
-  "appId": "com.fleetmap.fieldstatus",
+  "appId": "com.fleetmap.fieldstatusapp",
   "appName": "fieldStatus",
   "bundledWebRuntime": false,
   "npmClient": "npm",

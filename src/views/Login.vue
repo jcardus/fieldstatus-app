@@ -67,21 +67,21 @@ export default defineComponent({
     ui.start('#firebaseui-auth-container', uiConfig)
   },
   methods: {
-    signInApple() {
-      SignInWithApple.signin({
-        requestedScopes: [
-          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-        ]
-      }).then(res => {
-            // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-            alert('Send token to apple for verification: ' + res.identityToken);
-            console.log(res);
-          })
-          .catch(error => {
-            alert(error.code + ' ' + error.localizedDescription);
-            console.error(error);
-          });
+    async signInApple() {
+      try {
+        const res = await SignInWithApple.signin({
+          requestedScopes: [
+            ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+            ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+          ]
+        })
+        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+        alert('Send token to apple for verification: ' + res.identityToken);
+        console.log(res)
+      } catch(error) {
+          alert(error.code + ' ' + error.localizedDescription);
+          console.error(error);
+      }
     }
   }
 })
