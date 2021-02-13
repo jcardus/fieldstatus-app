@@ -14,6 +14,10 @@
         <ion-icon :icon="logoApple"></ion-icon>
         Sign in with Apple
       </ion-button>
+      <ion-button expand="block" @click="signInGoogle">
+        <ion-icon :icon="logoGoogle"></ion-icon>
+        Sign in with Google
+      </ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -28,13 +32,14 @@ import 'firebaseui/dist/firebaseui.css'
 import {IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple';
-import { logoApple } from 'ionicons/icons';
+import { logoApple, logoGoogle } from 'ionicons/icons';
+import {GooglePlus} from '@ionic-native/google-plus'
 
 export default defineComponent({
   name: "Login",
   components: { IonButton, IonToolbar, IonTitle, IonHeader, IonPage, IonContent, IonIcon },
   setup() {
-    return {logoApple}
+    return {logoApple, logoGoogle}
   },
   mounted() {
     // Initialize the FirebaseUI Widget using Firebase.
@@ -69,6 +74,12 @@ export default defineComponent({
     ui.start('#firebaseui-auth-container', uiConfig)
   },
   methods: {
+    async signInGoogle() {
+      console.log(await GooglePlus.login({
+        'webClientId': '1065922007703-mjslohf50c6n626j7ejho5hgki458mn6.apps.googleusercontent.com',
+        'offline': true
+      }))
+    },
     async signInApple() {
       try {
         const res = await SignInWithApple.signin({

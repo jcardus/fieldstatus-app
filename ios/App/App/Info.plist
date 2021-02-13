@@ -21,6 +21,14 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1065922007703-f57jmsk3quhmqfup8l4533rom86fu18q</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>REVERSED_CLIENT_ID</string>
+		</dict>
+		<dict>
 			<key>CFBundleURLName</key>
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
