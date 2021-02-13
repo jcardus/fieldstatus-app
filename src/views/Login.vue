@@ -10,7 +10,7 @@
           <div id="loader">
             Loading...
           </div>
-      <ion-button expand="full" @click="signInApple">
+      <ion-button expand="block" @click="signInApple">
         <ion-icon :icon="logoApple"></ion-icon>
         Sign in with Apple
       </ion-button>
@@ -84,13 +84,11 @@ export default defineComponent({
         const credential = provider.credential({
           idToken: res.identityToken
         });
-
         // Call the sign in with our created credentials
-        const userCredential = await firebase.auth.signInWithCredential(credential);
-        console.log(userCredential)
+        console.log(await firebase.auth().signInWithCredential(credential))
+        await this.$router.push('/')
       } catch(error) {
-          alert(error.code + ' ' + error.localizedDescription);
-          console.error(error);
+        console.error(error);
       }
     }
   }
