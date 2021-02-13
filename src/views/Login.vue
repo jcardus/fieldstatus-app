@@ -1,10 +1,18 @@
 <template>
-  <div>
-    <div id="firebaseui-auth-container" />
-    <div id="loader">
-      Loading...
-    </div>
-  </div>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Login</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+          <div id="firebaseui-auth-container" />
+          <div id="loader">
+            Loading...
+          </div>
+          <ion-button @click="signInApple">Sign in with Apple</ion-button>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script>
@@ -13,8 +21,15 @@ import * as firebaseui from 'firebaseui'
 import firebase from 'firebase/app'
 import 'firebaseui/dist/firebaseui.css'
 
-export default {
+
+import {IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
+import { defineComponent } from 'vue';
+import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple';
+
+
+export default defineComponent({
   name: "Login",
+  components: { IonButton, IonToolbar, IonTitle, IonHeader, IonPage, IonContent },
   mounted() {
     // Initialize the FirebaseUI Widget using Firebase.
     const ui = new firebaseui.auth.AuthUI(firebase.auth())
@@ -50,8 +65,26 @@ export default {
     }
     // The start method will wait until the DOM is loaded.
     ui.start('#firebaseui-auth-container', uiConfig)
+  },
+  methods: {
+    signInApple() {
+      SignInWithApple.signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+        ]
+      }).then(res => {
+            // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+            alert('Send token to apple for verification: ' + res.identityToken);
+            console.log(res);
+          })
+          .catch(error => {
+            alert(error.code + ' ' + error.localizedDescription);
+            console.error(error);
+          });
+    }
   }
-}
+})
 </script>
 
 <style lang="scss">
