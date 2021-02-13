@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Login</ion-title>
+        <ion-title>fieldStatus</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -74,11 +74,28 @@ export default defineComponent({
     ui.start('#firebaseui-auth-container', uiConfig)
   },
   methods: {
+    async oAuthSignIn(token, domain) {
+      try {
+        const provider = new firebase.auth.OAuthProvider(domain);
+
+        // Create sign in credentials with our token
+        const credential = provider.credential({
+          idToken: token
+        });
+        // Call the sign in with our created credentials
+        console.log(await firebase.auth().signInWithCredential(credential))
+        await this.$router.push('/')
+      } catch (e) {
+        console.error(e)
+      }
+    },
     async signInGoogle() {
-      console.log(await GooglePlus.login({
+      const res = await GooglePlus.login({
         'webClientId': '1065922007703-mjslohf50c6n626j7ejho5hgki458mn6.apps.googleusercontent.com',
         'offline': true
-      }))
+      })
+      console.log('google login result', res)
+      await this.oAuthSignIn(res.idToken, 'google.com')
     },
     async signInApple() {
       try {
@@ -89,15 +106,7 @@ export default defineComponent({
           ]
         })
         console.log(res)
-        const provider = new firebase.auth.OAuthProvider('apple.com');
-
-        // Create sign in credentials with our token
-        const credential = provider.credential({
-          idToken: res.identityToken
-        });
-        // Call the sign in with our created credentials
-        console.log(await firebase.auth().signInWithCredential(credential))
-        await this.$router.push('/')
+        await this.oAuthSignIn(res.identityToken, 'apple.com')
       } catch(error) {
         console.error(error);
       }
