@@ -4,15 +4,26 @@
   </ion-app>
 </template>
 
-<script lang="ts">
+<script>
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import firebase from "firebase/app";
 
 export default defineComponent({
   name: 'App',
   components: {
     IonApp,
     IonRouterOutlet
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+
+        console.log('logged user', user)
+      } else {
+        this.$router.push('/login')
+      }
+    })
   }
 });
 </script>

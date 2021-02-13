@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router';
+import router from './router/index';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -37,7 +37,7 @@ import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBe2gsMZaCPt_9gFX55ADod2S4T2wFr1lE",
-  authDomain: "fleetstat.us",
+  authDomain: "fieldstat.us",
   projectId: "fieldstatus-c4f7c",
   storageBucket: "fieldstatus-c4f7c.appspot.com",
   messagingSenderId: "1065922007703",
@@ -48,9 +48,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+import store from './store'
+
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router).use(store)
 
 router.isReady().then(() => {
   app.mount('#app');

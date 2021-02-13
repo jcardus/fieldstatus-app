@@ -10,7 +10,10 @@
           <div id="loader">
             Loading...
           </div>
-          <ion-button @click="signInApple">Sign in with Apple</ion-button>
+      <ion-button expand="full" @click="signInApple">
+        <ion-icon :icon="logoApple"></ion-icon>
+        Sign in with Apple
+      </ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -22,14 +25,17 @@ import firebase from 'firebase/app'
 import 'firebaseui/dist/firebaseui.css'
 
 
-import {IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple';
-
+import { logoApple } from 'ionicons/icons';
 
 export default defineComponent({
   name: "Login",
-  components: { IonButton, IonToolbar, IonTitle, IonHeader, IonPage, IonContent },
+  components: { IonButton, IonToolbar, IonTitle, IonHeader, IonPage, IonContent, IonIcon },
+  setup() {
+    return {logoApple}
+  },
   mounted() {
     // Initialize the FirebaseUI Widget using Firebase.
     const ui = new firebaseui.auth.AuthUI(firebase.auth())
@@ -51,11 +57,7 @@ export default defineComponent({
       signInFlow: 'popup',
       signInSuccessUrl: '/',
       signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        {
-          provider: 'apple.com'
-        },
         firebase.auth.EmailAuthProvider.PROVIDER_ID
       ],
       // Terms of service url.
@@ -75,9 +77,17 @@ export default defineComponent({
             ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
           ]
         })
-        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-        alert('Send token to apple for verification: ' + res.identityToken);
         console.log(res)
+        const provider = new firebase.auth.OAuthProvider('apple.com');
+
+        // Create sign in credentials with our token
+        const credential = provider.credential({
+          idToken: res.identityToken
+        });
+
+        // Call the sign in with our created credentials
+        const userCredential = await firebase.auth.signInWithCredential(credential);
+        console.log(userCredential)
       } catch(error) {
           alert(error.code + ' ' + error.localizedDescription);
           console.error(error);
