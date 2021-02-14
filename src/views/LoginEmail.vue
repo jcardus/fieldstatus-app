@@ -11,18 +11,14 @@
       </ion-card>
           <div style="padding: 30vh 10px">
             <ion-title style="text-align: center; padding: 10px">Welcome to fieldStatus</ion-title>
-              <ion-button expand="block" @click="signInApple">
-                <ion-icon :icon="logoApple"></ion-icon>
-                Sign in with Apple
-              </ion-button>
-              <ion-button expand="block" @click="signInGoogle">
-                <ion-icon :icon="logoGoogle"></ion-icon>
-                Sign in with Google
-              </ion-button>
-              <ion-button expand="block" @click="$router.push('/loginEmail')">
-                <ion-icon :icon="mail"></ion-icon>
-                Sign in with Email
-              </ion-button>
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input></ion-input>
+            </ion-item>
           </div>
     </ion-content>
   </ion-page>
@@ -34,11 +30,10 @@ import 'firebaseui/dist/firebaseui.css'
 
 
 import {
-  IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,
+  IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonInput,
   IonContent,
-  IonIcon,
   IonPage,
-  IonTitle
+  IonTitle, IonItem, IonLabel
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple';
@@ -47,7 +42,7 @@ import {GooglePlus} from '@ionic-native/google-plus'
 
 export default defineComponent({
   name: "Login",
-  components: { IonButton, IonTitle, IonPage, IonContent, IonIcon, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle },
+  components: { IonTitle, IonPage, IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonInput, IonItem, IonLabel },
   setup() {
     return {logoApple, logoGoogle, mail}
   },
