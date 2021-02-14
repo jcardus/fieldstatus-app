@@ -1,24 +1,19 @@
 <template>
   <ion-page>
-
     <ion-content :fullscreen="true">
-      <ion-card v-if="signInEmail">
-        <ion-card-header>
-          <ion-card-title></ion-card-title>
-          <ion-card-subtitle></ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content></ion-card-content>
-      </ion-card>
           <div style="padding: 30vh 10px">
             <ion-title style="text-align: center; padding: 10px">Welcome to fieldStatus</ion-title>
             <ion-item>
               <ion-label position="floating">Email</ion-label>
-              <ion-input></ion-input>
+              <ion-input v-model="email"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Password</ion-label>
-              <ion-input></ion-input>
+              <ion-input type="password" v-model="password"></ion-input>
             </ion-item>
+            <ion-button @click="login">
+              Login
+            </ion-button>
           </div>
     </ion-content>
   </ion-page>
@@ -30,68 +25,43 @@ import 'firebaseui/dist/firebaseui.css'
 
 
 import {
-  IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonInput,
+  IonInput,
   IonContent,
   IonPage,
-  IonTitle, IonItem, IonLabel
+  IonTitle, IonItem, IonLabel, IonButton
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple';
 import { logoApple, logoGoogle, mail } from 'ionicons/icons';
-import {GooglePlus} from '@ionic-native/google-plus'
+import {alertController} from "@ionic/core";
+
 
 export default defineComponent({
   name: "Login",
-  components: { IonTitle, IonPage, IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonInput, IonItem, IonLabel },
+  components: { IonTitle, IonPage, IonContent, IonInput, IonItem, IonLabel, IonButton },
   setup() {
     return {logoApple, logoGoogle, mail}
   },
   data() {
     return {
-      signInEmail: false
+      email: '',
+      password: ''
     }
   },
   methods: {
-    async oAuthSignIn(token, domain) {
+    async login() {
       try {
-        const provider = new firebase.auth.OAuthProvider(domain);
-
-        // Create sign in credentials with our token
-        const credential = provider.credential({
-          idToken: token
-        });
+        await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         // Call the sign in with our created credentials
-        console.log(await firebase.auth().signInWithCredential(credential))
         await this.$router.push('/')
       } catch (e) {
-        console.error(e)
+        const alert = await alertController
+            .create({
+              header: 'Error',
+              message: e,
+              buttons: ['OK'],
+            });
+        return alert.present();
       }
-    },
-    async signInGoogle() {
-      const res = await GooglePlus.login({
-        'webClientId': '1065922007703-mjslohf50c6n626j7ejho5hgki458mn6.apps.googleusercontent.com',
-        'offline': true
-      })
-      console.log('google login result', res)
-      await this.oAuthSignIn(res.idToken, 'google.com')
-    },
-    async signInApple() {
-      try {
-        const res = await SignInWithApple.signin({
-          requestedScopes: [
-            ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-            ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-          ]
-        })
-        console.log(res)
-        await this.oAuthSignIn(res.identityToken, 'apple.com')
-      } catch(error) {
-        console.error(error);
-      }
-    },
-    toggleSignInEmail() {
-      console.log(this.signInEmail)
-      this.signInEmail = true
     }
   }
 })
