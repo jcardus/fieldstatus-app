@@ -21,8 +21,6 @@
 
 <script>
 import firebase from 'firebase/app'
-import 'firebaseui/dist/firebaseui.css'
-
 
 import {
   IonInput,
@@ -66,6 +64,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss">
-</style>

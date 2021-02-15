@@ -15,6 +15,10 @@ const routes = [
     component: () => import('@/views/LoginEmail.vue')
   },
   {
+    path: '/views/jobs/:jobid',
+    component: () => import('@/views/Job.vue')
+  },
+  {
     path: '/tabs/',
     component: () => import('@/views/Tabs.vue'),
     children: [
@@ -28,7 +32,7 @@ const routes = [
       },
       {
         path: 'tab2',
-        component: () => import('@/views/Tab2.vue')
+        component: () => import('@/views/Jobs.vue')
       },
       {
         path: 'settings',

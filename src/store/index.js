@@ -9,29 +9,32 @@ export const store = createStore({
     mutations: {
         SET_USER (state, user) {
             state.user = user
+        },
+        CHANGE_JOB(state, job) {
+            state.job = job
         }
     },
     actions: {
         async logout() {
             console.log(await firebase.auth().signOut())
         },
-        bindTodosRef({ commit }) {
+        bindTodosRef({ commit, state }) {
             // unsubscribe can be called to stop listening for changes
             firebase.firestore().collection('jobs').onSnapshot(ref => {
                 ref.docChanges().forEach(change => {
                     const {newIndex, oldIndex, doc, type} = change
                     if (type === 'added') {
-                        commit('changeTodo', {newIndex, oldIndex, doc, type})
-                        this.jobs.splice(newIndex, 0, doc.data())
+                        commit('CHANGE_JOB', {newIndex, oldIndex, doc, type})
+                        state.jobs.splice(newIndex, 0, {id: doc.id})
                         // if we want to handle references we would do it here
                     } else if (type === 'modified') {
                         // remove the old one first
-                        this.jobs.splice(oldIndex, 1)
+                        state.jobs.splice(oldIndex, 1)
                         // if we want to handle references we would have to unsubscribe
                         // from old references' listeners and subscribe to the new ones
-                        this.jobs.splice(newIndex, 0, doc.data())
+                        state.jobs.splice(newIndex, 0, doc.data())
                     } else if (type === 'removed') {
-                        this.jobs.splice(oldIndex, 1)
+                        state.jobs.splice(oldIndex, 1)
                         // if we want to handle references we need to unsubscribe
                         // from old references
                     }
@@ -40,7 +43,12 @@ export const store = createStore({
         }
     },
     getters: {
-      user(state) {return state.user}
+      user(state) {
+          return state.user
+      },
+      jobs(state) {
+          return state.jobs
+      }
     }
 })
 

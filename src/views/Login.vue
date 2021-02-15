@@ -30,8 +30,6 @@
 
 <script>
 import firebase from 'firebase/app'
-import 'firebaseui/dist/firebaseui.css'
-
 
 import {
   IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,

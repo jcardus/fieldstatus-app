@@ -8,6 +8,8 @@
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import firebase from "firebase/app";
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 
 export default defineComponent({
   name: 'App',
@@ -24,6 +26,9 @@ export default defineComponent({
         this.$router.push('/login')
       }
     })
+  },
+  mounted() {
+    defineCustomElements(window)
   }
 });
 </script>
