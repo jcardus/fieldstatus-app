@@ -58,16 +58,16 @@ export default  {
         source: CameraSource.Camera,
         quality: 100
       });
-      console.log(cameraPhoto.webPath)
-      const imageRef = firebase.storage().ref().child(cameraPhoto.webPath)
+      const photoID = this.$route.params.jobid + new Date().getTime()
+      const imageRef = firebase.storage().ref().child(photoID)
 
       const savedFileImage = {
         firebase: imageRef,
         webviewPath: cameraPhoto.webPath
       };
       this.photos.push(savedFileImage);
-      imageRef.put(await fetch(cameraPhoto.webPath).then(r => r.blob()))
-      await firebase.firestore().collection('jobs').doc(this.$route.params.jobid).collection('photos').add({webPath: cameraPhoto.webPath})
+      await imageRef.put(await fetch(cameraPhoto.webPath).then(r => r.blob()))
+      await firebase.firestore().collection('jobs').doc(this.$route.params.jobid).collection('photos').add({photoID, photoURL: await imageRef.getDownloadURL()})
     }
   },
   setup() {

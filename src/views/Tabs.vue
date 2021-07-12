@@ -13,7 +13,7 @@
         </ion-tab-button>
 
         <ion-tab-button tab="settings" href="/tabs/settings">
-          <ion-icon :icon="square" />
+          <ion-icon :icon="mapOutline" />
           <ion-label>Settings</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -23,14 +23,14 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { mapOutline, square, triangle } from 'ionicons/icons';
 
 export default {
   name: 'Tabs',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage },
   setup() {
     return {
-      ellipse,
+      mapOutline,
       square,
       triangle,
     }
